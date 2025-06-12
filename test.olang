@@ -1,0 +1,8 @@
+$use string;
+
+write("Type the main string:\n>> ");
+declare(string, str, read());
+write("Type the substring you want to find:\n>> ");
+declare(substring, str, read());
+declare(result, int, find(get(string), get(substring)));
+write("Substring found starting from index ", get(result), " to index ", get(result) + length(get(substring)) - 1);

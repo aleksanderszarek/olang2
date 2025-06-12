@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>OLang Documentation</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>OLang Documentation</h1>
+			<nav>
+				<ul>
+					<li><a href="#intro">Introduction</a></li>
+					<li><a href="#install">Installation</a></li>
+					<li><a href="#syntax">Syntax</a></li>
+					<li><a href="#examples">Examples</a></li>
+					<li><a href="#about">About</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="intro">
+				<h2>Introduction</h2>
+				<p>
+					OLang is a modern, lightweight programming language designed for
+					simplicity and efficiency. It's ideal for scripting, educational use,
+					and rapid prototyping. OLang features a clean syntax, dynamic typing,
+					and a powerful standard library.
+				</p>
+			</section>
+
+			<section id="install">
+				<h2>Installation</h2>
+				<p>
+					To install OLang, download the latest binary from the official
+					repository and run the installation script called
+					<b>install.cmd</b>. <br />
+					Installer may install other dependencies, including Python. <br />
+					After installation, you can run OLang scripts by double-clicking the
+					file with .olang extension. OLang will automatically open the script
+					in the default command prompt application. <br />
+				</p>
+			</section>
+
+			<section id="requirements">
+				<h2>Requirements</h2>
+				<p>
+					OLang is designed to be cross-platform and should work on Windows,
+					macOS, and Linux. <br />
+					Windows 7 or higher is mandatory or macOS 10.12 or higher. <br />
+				</p>
+			</section>
+
+			<section id="syntax">
+				<h2>Syntax Overview</h2>
+				<p>
+					OLang is an object-oriented sequential programming language. Loops,
+					variables, functions and instructions are objects, which can be called
+					using <b>exec()</b> instruction from mainlib. OLang requires libraries
+					to run. You can read about all instructions of each included library
+					using buttons below: <br />
+					<button onclick="alert('mainlib')">mainlib</button>
+					<button onclick="alert('varlib')">varlib</button>
+					<button onclick="alert('time')">time</button>
+					<button onclick="alert('math')">math</button>
+					<button onclick="alert('algorithm')">algorithm</button>
+					<button onclick="alert('os')">os</button>
+					<br /><br />
+					You can declare a library using the <b>$use</b> command. <br />
+					OLang supports functions:
+				</p>
+				<pre><code>function greet(string name) {
+  print("Hello, ", name);
+}</code></pre>
+				<p>OLang supports variables:</p>
+				<pre><code>int a = 5;
+string name = "John";
+bool isTrue = true;
+float pi = 3.14;
+                </code></pre>
+				<p>OLang supports loops:</p>
+				<pre><code>for(int i = 0, i < 10, i++){
+    print(i);
+}</code></pre>
+				<p>OLang supports conditionals:</p>
+				<pre><code>if(a > 5){
+    print("a is greater than 5");
+}else{
+    print("a is less than or equal to 5");
+}</code></pre>
+				<p>OLang supports arrays:</p>
+				<pre><code>int[] numbers = [1, 2, 3, 4, 5];
+numbers[0] = 10;
+print(numbers[0]);</code></pre>
+			</section>
+
+			<section id="examples">
+				<h2>Examples</h2>
+				<p>Fibbonacci Sequence</p>
+				<pre><code>$use mainlib
+$use varlib
+function fib(){
+    int a = 1;
+    for(int i = 0, i < 10, i++){
+        print(a);
+        a += a;
+    }
+    return;
+}
+exec(fib, []);</code></pre>
+				<br /><br />
+				<p>Random Number Generator</p>
+				<pre><code>$use mainlib
+$use varlib
+$use time
+function getNumber(int start, int end){
+    return random(start, end);
+}
+print("Select start value: ");
+int start = input
+print("Select end value: ");
+int end = input
+int number = exec(getNumber, [start, end]);
+print("Random number between ", start, " and ", end, " is: ", number);</code></pre>
+			</section>
+
+			<section id="about">
+				<h2>About OLang</h2>
+				<p>
+					OLang was created by [Your Name] as an educational and practical tool
+					for learning language design and interpreters. Contributions are
+					welcome!
+				</p>
+			</section>
+		</main>
+
+		<footer>
+			<p>&copy; 2025 OLang Project. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

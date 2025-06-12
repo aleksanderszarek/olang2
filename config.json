@@ -1,0 +1,7 @@
+{
+	"interpreterVer": "0.1.0",
+	"preprocessorDebug": false,
+	"returnOnFatal": true,
+	"generalLibraryLocation": "libraries",
+	"includeLibraries": ["convert", "mainlib", "arrays", "varlib"]
+}

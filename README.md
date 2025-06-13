@@ -25,3 +25,5 @@
 - returnOnFatal: true / false; if true, interpreter will stop code execution if it encounters a fatal error.
 - generalLibraryLocation: str; directory name where libraries are stored
 - includeLibraries: list[str]; list of libraries which should be included automatically even if they are not included using $use instruction
+
+## Read more about the project in the article (Architektura i Implementacja interpretera w Pythonie.pdf)

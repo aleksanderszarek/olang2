@@ -5,8 +5,9 @@ Instructions:
 - write(arg1, arg2, ...): Prints the given arguments to the console.
 - writeline(arg1, arg2, ...): Prints the given arguments to the console followed by a newline.
 - read(): Reads input from the user and returns it as a string.
+- if(condition) => instruction: Executes the instruction if the condition is true.
 '''
-import re
+import re, json
 def eval_value(value: str, run_object, throw_error) -> object:
     value = str(value)
     raw_value = value.replace(" ", "").replace(",", "$")
@@ -111,18 +112,98 @@ def split_args(content: str) -> list[str]:
 class MainLib:
 
     def exec(self, arg: str, run_object, throw_error):
-        # content = arg.strip()[arg.find('(') + 1:arg.rfind(')')].replace("\\n", "\n").replace("\\t", "\t")
-        # items = split_args(content)
-        # if len(items) > 0:
-        #     name = items[0]
-        #     if len(items) > 1:
-        #         args = items[1:]
-        #     else:
-        #         args = []
-        #     obj = run_object(f"god({name})")
-        #     obj.args
-        #     obj.body
-        return
+        try:
+            args_string = arg.strip()[arg.find('(') + 1:arg.rfind(')')]
+            args = [a.strip() for a in split_args(args_string)]
+
+            if len(args) < 1:
+                throw_error("exec(...) requires at least one argument", True, arg)
+                return
+
+            raw_name = args[0]
+            arguments = args[1:]
+
+            try:
+                name_value = run_object(raw_name)
+            except Exception:
+                name_value = raw_name.strip("\"'")
+
+            try:
+                god_result = run_object(f'god({name_value})')
+            except Exception as e:
+                throw_error(f"Error resolving god(...): {e}", True, arg)
+                return
+
+            code = god_result["body"]
+            parameters = god_result.get("args", [])
+
+            if len(arguments) != len(parameters):
+                throw_error(f"Function {name_value} expected {len(parameters)} args, got {len(arguments)}", True, arg)
+                return
+
+            for param, raw_arg in zip(parameters, arguments):
+                if ':' not in param:
+                    throw_error(f"Invalid parameter format: {param}. Expected 'name:type'.", True, arg)
+                    return
+                param_name, param_type = [p.strip() for p in param.split(':')]
+
+                evaluated = run_object(raw_arg)
+
+                # Handle quoting string values explicitly
+                if isinstance(evaluated, str):
+                    value_repr = f'"{evaluated}"'
+                elif isinstance(evaluated, bool):
+                    value_repr = "true" if evaluated else "false"
+                else:
+                    value_repr = str(evaluated)
+
+                run_object(f"declare({param_name}, {param_type}, {value_repr})")
+
+            for ins in code:
+                run_object(ins)
+
+        except Exception as e:
+            throw_error(f"Failed to execute exec: {e}", True, arg)
+    
+    def if_statement(self, arg: str, run_object, throw_error):
+        try:
+            parts = arg.strip().split('=>', 1)
+            if len(parts) != 2:
+                throw_error("Missing '=>' in if statement", True, arg)
+                return
+
+            condition_str = parts[0].strip()
+            instruction = parts[1].strip()
+            if not condition_str.startswith("if(") or not condition_str.endswith(")"):
+                throw_error("Invalid if statement syntax", True, arg)
+                return
+            condition_expr = condition_str[3:-1].strip()
+            def xor(a, b): return bool(a) != bool(b)
+            func_call_pattern = r'\b([a-zA-Z_]\w*)\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)'
+            while True:
+                matches = list(re.finditer(func_call_pattern, condition_expr))
+                if not matches:
+                    break
+                for match in reversed(matches): 
+                    full_call = match.group(0)
+                    try:
+                        result = run_object(full_call)
+                    except Exception as e:
+                        throw_error(f"Error evaluating expression `{full_call}`: {e}", True, arg)
+                        return
+                    if isinstance(result, str):
+                        result = f'"{result}"'
+                    elif result is None:
+                        result = "None"
+
+                    condition_expr = condition_expr[:match.start()] + str(result) + condition_expr[match.end():]
+            result = eval(condition_expr, {"__builtins__": None}, {"xor": xor})
+            if result:
+                return run_object(instruction)
+
+        except Exception as e:
+            throw_error(f"Failed to execute if_statement: {e}", True, arg)
+
     def write(self, arg: str, run_object, throw_error):
         content = arg.strip()[arg.find('(') + 1:arg.rfind(')')].replace("\\n", "\n").replace("\\t", "\t")
         items = split_args(content)
@@ -152,5 +233,5 @@ class MainLib:
             return ""
 
 l = MainLib()
-instructions: list[str] = ["exec","write","writeline","read"]
-variables: list[object] = [l.exec, l.write, l.writeline, l.read]
+instructions: list[str] = ["exec","write","writeline","read", "if"]
+variables: list[object] = [l.exec, l.write, l.writeline, l.read, l.if_statement]

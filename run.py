@@ -2,45 +2,40 @@ import json
 import os
 import importlib.util
 from colorama import init as colorama_init
-from colorama import Fore
-from colorama import Style
+from colorama import Fore, Style
 
 colorama_init()
+
 config = json.load(open('config.json', 'r', encoding='utf-8'))
 defaultLibraries = config.get('includeLibraries', [])
 returnOnFatal = config.get('returnOnFatal', True)
 preprocessorDebug = config.get('preprocessorDebug', False)
-generalLibraryLocation = config.get('generalLibraryLocation', False)
+generalLibraryLocation = config.get('generalLibraryLocation', '')
+
 code = open('test.olang', 'r', encoding='utf-8').readlines()
 code = filter(lambda x: x not in ['\n','\t',''], code)
 code = filter(lambda x: x[0:1] != '//', code)
 c = "".join(code)
 code = c.replace('\n', '').replace('    ', '').replace("{",";{;").replace("}",";};").split(';')
+
 vtypes = ["int", "float", "string", "bool", "char", "object"]
-class Variable:
-    def __init__(self, name: str, type: int, value: str):
-        self.name = name
-        self.type = type # 0 = int, 1 = float, 2 = string, 3 = bool, 4 = char, 5 = object
-        self.value = value
-    def __str__(self):
-        return f"[{self.name} -> {vtypes[self.type]}]"
+
 class Object:
-    def __init__(self, type: int, args: list[str], body: list[str]):
-        self.type = type # 0 = function, 1 = for loop, 2 = while loop, 3 = if statement
+    def __init__(self, type: int, args: list[str], body: list[str], name: str = ""):
+        self.type = type  # 0=function, 1=for, 2=while, 3=if
         self.args = args
         self.body = body
-    def exec(self, args: list[Variable]):
-        for instruction in self.body:
-            if instruction.exec(args) != None:
-                return instruction.exec(args)
-        return None
+        self.name = name
+
+   
+
     def __call__(self):
         ...
-        
-variables: list[Variable] = []
+
 instructions: list[str] = []
 objects: list[Object] = []
 librariesVars: list[object] = []
+
 def split_args(s: str) -> list[str]:
     args = []
     current = ""
@@ -70,12 +65,8 @@ def split_args(s: str) -> list[str]:
     return args
 
 class Preprocessor:
-    def __init__(self) -> None:
-        ...
     def getlibraries(self, code: list[str]) -> list[str]:
-        libraries = []
-        for library in defaultLibraries:
-            libraries.append(library)
+        libraries = list(defaultLibraries)
         for i, line in enumerate(code):
             if line.startswith("//"):
                 continue
@@ -86,10 +77,10 @@ class Preprocessor:
                     libraries.append(lib.replace(" ", ""))
             else:
                 return libraries
+
     def getfunctions(self, code: list[str], starting_id: int) -> tuple[list[Object], list[str], int]:
         objects = []
         new_code = []
-        nested_objs = []
         i = 0
         loop_id = starting_id
 
@@ -98,25 +89,11 @@ class Preprocessor:
             if line.startswith("function"):
                 name = line.split(' ')[1].split('(')[0]
                 args_str = line[line.find('(')+1 : line.rfind(')')]
-                args = []
+                args = split_args(args_str) if args_str else []
 
-                if args_str:
-                    for arg in split_args(args_str):
-                        parts = arg.strip().split()
-                        if len(parts) != 2:
-                            raise Exception(f"Invalid function argument format: '{arg}'")
-                        argtype_str, argname = parts
-                        if argtype_str not in vtypes:
-                            raise Exception(f"Invalid argument type: {argtype_str}")
-                        argtype = vtypes.index(argtype_str)
-                        args.append(Variable(argname, argtype, None))
-
-                # Skip to opening brace
                 while i < len(code) and code[i] != "{":
                     i += 1
-                i += 1  # Skip the '{'
-
-                # Extract body
+                i += 1
                 body = []
                 depth = 1
                 while i < len(code) and depth > 0:
@@ -131,21 +108,15 @@ class Preprocessor:
                         body.append(current)
                     i += 1
 
-                # Handle nested loops inside the function
                 nested_objs, processed_body, loop_id = self.getloops(body, loop_id)
                 objects.extend(nested_objs)
-
-                obj = Object(0, args, processed_body)
+                obj = Object(0, args, processed_body, name)
                 objects.append(obj)
-                variables.append(Variable(name, 5, obj))
-
-                loop_id += 1
             else:
                 new_code.append(line)
             i += 1
 
         return objects, new_code, loop_id
-
 
     def getloops(self, code: list[str], starting_id: int) -> tuple[list[Object], list[str], int]:
         objects = []
@@ -160,17 +131,11 @@ class Preprocessor:
                 parts = split_args(raw_args)
                 if len(parts) != 3:
                     raise Exception("Invalid for loop syntax. Expected 3 parts: init, condition, step")
+                init, condition, step = parts
 
-                init = parts[0]
-                condition = parts[1]
-                step = parts[2]
-
-                # Skip to body
                 while i < len(code) and code[i] != "{":
                     i += 1
-                i += 1  # skip "{"
-
-                # Extract loop body
+                i += 1
                 body = []
                 depth = 1
                 while i < len(code) and depth > 0:
@@ -186,89 +151,67 @@ class Preprocessor:
                     i += 1
 
                 loop_id += 1
-
-                # Handle nested loops
                 nested_objs, transformed_body, loop_id = self.getloops(body, loop_id)
                 objects.extend(nested_objs)
 
-                # Inject control structure
-                transformed_body.insert(0, init)
                 transformed_body.append(step)
-                transformed_body.append(f"if({condition}) exec({loop_id})")
+                transformed_body.append(f"if({condition}) => exec({loop_id - 1})")
 
-                obj = Object(1, [], transformed_body)
+                obj = Object(1, [], transformed_body, name=f"for_loop_{loop_id - 1}")
                 objects.append(obj)
-                variables.append(Variable("", 5, obj))
 
-                new_code.append(f"exec({loop_id})")
+                new_code.append(init)
+                new_code.append(f"exec({loop_id - 1})")
             else:
                 new_code.append(line)
             i += 1
+
         return objects, new_code, loop_id
 
-
 def throw_error(message: str, fatality: bool, line: str):
-    print(Fore.RED, Style.BRIGHT, f"\n\nInterpreter run into an error while running {line.split(" ")[0].split("(")[0]}!\n", Style.DIM, f"{message}", Fore.RESET, Style.RESET_ALL)
-    if fatality and returnOnFatal:
-        exit()
+    print(Fore.RED, Style.BRIGHT, f"\n\nInterpreter run into an error while running {line.split(' ')[0].split('(')[0]}!\n", Style.DIM, f"{message}", Fore.RESET, Style.RESET_ALL)
+
 def run_object(line: str):
     if line.strip().startswith('god'):
         try:
             content = line.strip()[4:-1].strip()
-            # Try by index
             if content.isdigit():
-                idx = int(content) - 1
-                if 0 <= idx < len(variables):
-                    var = variables[idx]
-                    if var.type == 5:  # object
-                        return {
-                            "name": var.name,
-                            "type": "object",
-                            "object_type": ["Function", "ForLoop", "WhileLoop", "IfStatement"][var.value.type],
-                            "args": [str(a) for a in var.value.args],
-                            "body": var.value.body
-                        }
-                    else:
-                        return {
-                            "name": var.name,
-                            "type": vtypes[var.type],
-                            "value": var.value
-                        }
+                idx = int(content)
+                if 0 <= idx < len(objects):
+                    obj = objects[idx]
+                    return {
+                        "name": obj.name,
+                        "type": "object",
+                        "object_type": ["Function", "ForLoop", "WhileLoop", "IfStatement"][obj.type],
+                        "args": obj.args,
+                        "body": obj.body
+                    }
                 else:
-                    throw_error("Variable index out of range", True, line)
-
-            # Try by variable name
-            for var in variables:
-                if var.name == content:
-                    if var.type == 5:  # object
-                        return {
-                            "name": var.name,
-                            "type": "object",
-                            "object_type": ["Function", "ForLoop", "WhileLoop", "IfStatement"][var.value.type],
-                            "args": [str(a) for a in var.value.args],
-                            "body": var.value.body
-                        }
-                    else:
-                        return {
-                            "name": var.name,
-                            "type": vtypes[var.type],
-                            "value": var.value
-                        }
-
-            throw_error("Variable not found by name or index", True, line)
-
+                    throw_error("Object index out of range", True, line)
+            for obj in objects:
+                if obj.name == content[1:-1]:
+                    return {
+                        "name": obj.name,
+                        "type": "object",
+                        "object_type": ["Function", "ForLoop", "WhileLoop", "IfStatement"][obj.type],
+                        "args": obj.args,
+                        "body": obj.body
+                    }
+            throw_error("Object not found by name or index", True, line)
         except Exception as e:
             throw_error(f"Error resolving god(...): {e}", True, line)
-
+      
     if "//" in line:
         line = line[:line.index("//")]
     try:
+        if "input" in line or "print" in line:
+            throw_error("Could not find instruction in current scope!", True, line)
         return eval(line.strip())
-    except Exception as e:
+    except:
         ...
     try:
         return float(line.strip())
-    except ValueError:
+    except:
         ...
     if line.strip() == "":
         return
@@ -277,30 +220,33 @@ def run_object(line: str):
             insts = lib.instructions
             instsVars = lib.variables
             ins = line.strip().split('(')[0].split()[0]
-        except Exception as e:
-            throw_error(f"Failed to access library specification for {libraries[librariesVars.index(lib)]}", True, line)
+        except:
+            throw_error(f"Failed to access library specification", True, line)
             return
         if ins in insts:
             try:
                 return instsVars[insts.index(ins)](line.strip(), run_object, throw_error)
-            except Exception as e:
+            except:
                 throw_error(f"Unknown error while executing {ins}", True, line)
                 return
+
     throw_error(f"Could not find instruction in current scope!", True, line)
+
 def execute(code):
     pre = Preprocessor()
-
     function_objs, code, next_id = pre.getfunctions(code, 0)
     loop_objs, code, _ = pre.getloops(code, next_id)
     all_objects = function_objs + loop_objs
+
     if preprocessorDebug:
         print(Style.BRIGHT, "=== LIBRARIES ===", Style.RESET_ALL)
+
     global libraries
     libraries = pre.getlibraries(code)
     for i, lib in enumerate(libraries):
         try:
-            if os.path.exists(os.path.join(os.getcwd(), generalLibraryLocation, (lib + ".py"))):
-                lib_path = os.path.join(os.getcwd(), generalLibraryLocation, lib + ".py")
+            lib_path = os.path.join(os.getcwd(), generalLibraryLocation, lib + ".py")
+            if os.path.exists(lib_path):
                 spec = importlib.util.spec_from_file_location(lib, lib_path)
                 mod = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(mod)
@@ -310,12 +256,13 @@ def execute(code):
             else:
                 if preprocessorDebug:
                     print(f"[ID {i}] {lib} (not found)")
-        except Exception as e:
+        except:
             throw_error(f"Failed to load library {lib}", True, lib)
+
     if preprocessorDebug:
         print(Style.BRIGHT, "\n=== OBJECTS ===", Style.RESET_ALL)
         for idx, obj in enumerate(all_objects):
-            print(f"[ID {idx}] Type: {'Function' if obj.type == 0 else 'ForLoop'}")
+            print(f"[ID {idx}] {obj.name} Type: {'Function' if obj.type == 0 else 'ForLoop'}")
             for instr in obj.body:
                 print(f"  {instr}")
         print(Style.BRIGHT, "\n=== MAIN CODE ===", Style.RESET_ALL)
@@ -325,10 +272,10 @@ def execute(code):
     global objects
     objects = all_objects
     print(Fore.YELLOW, Style.BRIGHT, "\nPreprocessing complete. Objects and main code are ready for execution.", Style.RESET_ALL, Fore.RESET)
-    
+
     for line in code:
         run_object(line)
     print(Fore.GREEN, Style.BRIGHT, "\n\nInterpreter finished code execution with exit code 0", Style.RESET_ALL, Fore.RESET)
-    
+
 if __name__ == "__main__":
     execute(code)

@@ -191,7 +191,7 @@ class VarLib:
 
         if len(args) == 3:
             if not new_var.set_value(value, run_object, throw_error):
-                throw_error(f"Cannot assign the value for variable '{name}'. Expected {type_str}, got {type(value)}.", True, arg)
+                throw_error(f"Cannot assign the value for variable '{name}'. Expected {type_str}, got {str(type(value))[8:-2]}.", True, arg)
 
         self.variables.append(new_var)
     def set_variable(self, arg: str, run_object, throw_error) -> None:

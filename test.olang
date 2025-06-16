@@ -5,4 +5,5 @@ declare(string, str, read());
 write("Type the substring you want to find:\n>> ");
 declare(substring, str, read());
 declare(result, int, find(get(string), get(substring)));
-write("Substring found starting from index ", get(result), " to index ", get(result) + length(get(substring)) - 1);
+if(get(result) != -1) => write("Substring found starting from index ", get(result), " to index ", int(get(result) + length(get(substring)) - 1));
+if(get(result) == -1) => write("Substring not found!");

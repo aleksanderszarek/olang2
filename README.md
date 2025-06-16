@@ -2,7 +2,7 @@
 
 ## Project Work In Progress!
 
-### - Instructions to add: exec(), if, return and for loop.
+### - Instructions to add: else, return, arrays
 
 ### - Documentation to add: library documentation
 

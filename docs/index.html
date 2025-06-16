@@ -64,73 +64,74 @@
 					<button onclick="alert('mainlib')">mainlib</button>
 					<button onclick="alert('varlib')">varlib</button>
 					<button onclick="alert('time')">time</button>
-					<button onclick="alert('math')">math</button>
-					<button onclick="alert('algorithm')">algorithm</button>
+					<button onclick="alert('math')">string</button>
+					<button onclick="alert('algorithm')">convert</button>
+					<button onclick="alert('os')">arrays</button>
 					<button onclick="alert('os')">os</button>
 					<br /><br />
 					You can declare a library using the <b>$use</b> command. <br />
 					OLang supports functions:
 				</p>
-				<pre><code>function greet(string name) {
-  print("Hello, ", name);
-}</code></pre>
+				<pre><code>function greet(name: str){
+    write(get(name));
+}
+exec("greet", read());</code></pre>
 				<p>OLang supports variables:</p>
-				<pre><code>int a = 5;
-string name = "John";
-bool isTrue = true;
-float pi = 3.14;
+				<pre><code>declare(a, int, 7);
+declare(pi, float);
+set(pi, 3.1415);
+write(get(pi) - get(a));
                 </code></pre>
 				<p>OLang supports loops:</p>
-				<pre><code>for(int i = 0, i < 10, i++){
-    print(i);
+				<pre><code>for(declare(i, int, 0), get(i) <= 10, set(i, get(i) + 1)){
+    writeline(get(i), ". Hello, World!");
 }</code></pre>
 				<p>OLang supports conditionals:</p>
-				<pre><code>if(a > 5){
-    print("a is greater than 5");
-}else{
-    print("a is less than or equal to 5");
-}</code></pre>
+				<pre><code>declare(i, int, read());
+if(get(i) % 2 == 0) => write(get(i), " is divisible by 2!");</code></pre>
 				<p>OLang supports arrays:</p>
-				<pre><code>int[] numbers = [1, 2, 3, 4, 5];
-numbers[0] = 10;
-print(numbers[0]);</code></pre>
+				<pre><code>TO BE ADDED</code></pre>
 			</section>
 
 			<section id="examples">
 				<h2>Examples</h2>
 				<p>Fibbonacci Sequence</p>
 				<pre><code>$use mainlib
-$use varlib
-function fib(){
-    int a = 1;
-    for(int i = 0, i < 10, i++){
-        print(a);
-        a += a;
-    }
-    return;
-}
-exec(fib, []);</code></pre>
+write("Enter the number of terms in the Fibonacci sequence: ");
+declare(n, int, read());
+declare(a, int, 1);
+declare(b, int, 0);
+for(declare(i, int, 0), get(i) < get(n), set(i, get(i) + 1)){
+    write(get(a), " ");
+    set(a, get(a) + get(b));
+    set(b, get(a) - get(b));
+}</code></pre>
 				<br /><br />
 				<p>Random Number Generator</p>
-				<pre><code>$use mainlib
-$use varlib
-$use time
-function getNumber(int start, int end){
-    return random(start, end);
-}
-print("Select start value: ");
-int start = input
-print("Select end value: ");
-int end = input
-int number = exec(getNumber, [start, end]);
-print("Random number between ", start, " and ", end, " is: ", number);</code></pre>
+				<pre><code>$use time;
+write("Select start value:\n>> ");
+declare(start, int, read());
+write("Select end value:\n>> ");
+declare(end, int, read());
+write(random(get(start), get(end)));</code></pre>
+				<br /><br />
+				<p>Find substring in string</p>
+				<pre><code>$use string;
+write("Type the main string:\n>> ");
+declare(string, str, read());
+write("Type the substring you want to find:\n>> ");
+declare(substring, str, read());
+declare(result, int, find(get(string), get(substring)));
+if(get(result) != -1) => write("Substring found starting from index ", get(result), " to index ", int(get(result) + length(get(substring)) - 1));
+if(get(result) == -1) => write("Substring not found!");
+</code></pre>
 			</section>
 
 			<section id="about">
 				<h2>About OLang</h2>
 				<p>
-					OLang was created by [Your Name] as an educational and practical tool
-					for learning language design and interpreters. Contributions are
+					OLang was created by Aleksander Szarek as an educational and practical
+					tool for learning language design and interpreters. Contributions are
 					welcome!
 				</p>
 			</section>

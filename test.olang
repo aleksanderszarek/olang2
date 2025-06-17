@@ -1,9 +1,8 @@
-$use string;
-
-write("Type the main string:\n>> ");
-declare(string, str, read());
-write("Type the substring you want to find:\n>> ");
-declare(substring, str, read());
-declare(result, int, find(get(string), get(substring)));
-if(get(result) != -1) => write("Substring found starting from index ", get(result), " to index ", int(get(result) + length(get(substring)) - 1));
-if(get(result) == -1) => write("Substring not found!");
+$use time;
+declare[](rnd, int);
+for(declare(i, int, 0), get(i) < 100, set(i, get(i) + 1)){
+    append[](rnd, random(1, 100));
+}
+for(declare(i, int, 99), get(i) >= 0, set(i, get(i) - 1)){
+    writeline(get[](rnd, get(i)));
+}

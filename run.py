@@ -130,7 +130,7 @@ class Preprocessor:
                 raw_args = line[line.find('(')+1 : line.rfind(')')].strip()
                 parts = split_args(raw_args)
                 if len(parts) != 3:
-                    raise Exception("Invalid for loop syntax. Expected 3 parts: init, condition, step")
+                    throw_error("Invalid for loop syntax. Expected 3 parts: init, condition, step", True, line)
                 init, condition, step = parts
 
                 while i < len(code) and code[i] != "{":

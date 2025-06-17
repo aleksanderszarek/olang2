@@ -4,6 +4,10 @@ This module provides instructions for string manipulation such as concatenation,
 - split(str, delimiter): Splits a string into a list of substrings based on the specified delimiter.
 - replace(str, old, new): Replaces occurrences of a substring with another substring in the given string.
 - contains(str, substring): Checks if the string contains the specified substring and returns a boolean value.
+- find(str, substring): Finds the substring in the specified string and returns its starting index or -1.
+- length(str): Returns the length of the string.
+- startswith(str, substring): Checks if the string starts with the specified substring and returns a boolean value.
+- endswith(str, substring): Checks if the string ends with the specified substring and returns a boolean value.
 '''
 import re
 def eval_value(value: str, run_object, throw_error) -> object:
@@ -158,7 +162,7 @@ class String:
             throw_error(f"Invalid arguments for contains", True, args)
             return False
         return substring in string
-    def find(self, args: str, run_object, throw_error) -> bool:
+    def find(self, args: str, run_object, throw_error) -> int:
         content = args[args.index("(")+1:args.rindex(")")]
         content = split_args(content)
         parts = content
@@ -172,6 +176,34 @@ class String:
             throw_error(f"Invalid arguments for find", True, args)
             return False
         return string.find(substring)
+    def startswith(self, args: str, run_object, throw_error) -> bool:
+        content = args[args.index("(")+1:args.rindex(")")]
+        content = split_args(content)
+        parts = content
+        if len(parts) != 2:
+            throw_error("startswith requires exactly two arguments: the string and the substring to check.", True, args)
+            return False
+        try:
+            string = str(eval_value(parts[0].strip(), run_object, throw_error))
+            substring = str(eval_value(parts[1].strip(), run_object, throw_error))
+        except Exception as e:
+            throw_error(f"Invalid arguments for find", True, args)
+            return False
+        return string.startswith(substring)
+    def endswith(self, args: str, run_object, throw_error) -> bool:
+        content = args[args.index("(")+1:args.rindex(")")]
+        content = split_args(content)
+        parts = content
+        if len(parts) != 2:
+            throw_error("endswith requires exactly two arguments: the string and the substring to check.", True, args)
+            return False
+        try:
+            string = str(eval_value(parts[0].strip(), run_object, throw_error))
+            substring = str(eval_value(parts[1].strip(), run_object, throw_error))
+        except Exception as e:
+            throw_error(f"Invalid arguments for find", True, args)
+            return False
+        return string.endswith(substring)
     def length(self, args: str, run_object, throw_error) -> int:
         content = args[args.index("(")+1:args.rindex(")")]
         if (content.startswith('"') and content.endswith('"')) or (content.startswith("'") and content.endswith("'")):
@@ -184,5 +216,5 @@ class String:
                 return -1
         return len(content)
 l = String()
-instructions: list[str] = ["concat", "split", "replace", "contains", "length", "find"]
-variables: list[object] = [l.concat, l.split, l.replace, l.contains, l.length, l.find]
+instructions: list[str] = ["concat", "split", "replace", "contains", "length", "find", "startswith", "endswith"]
+variables: list[object] = [l.concat, l.split, l.replace, l.contains, l.length, l.find, l.startswith, l.endswith]

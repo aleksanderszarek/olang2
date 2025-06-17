@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>OLang Documentation</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>mainlib</h1>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="#intro">Introduction</a></li>
+					<li><a href="#instructions">Instructions</a></li>
+					<li><a href="#examples">Examples</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="intro">
+				<h2>Introduction</h2>
+				<p>
+					Mainlib is the core library of OLang, providing essential functions
+					for input/output operations, and basic control structures. By default
+					it is automatically included in every OLang script, so you can use its
+					functions without any additional setup. <br />
+					You can use the <b>$use mainlib</b> command to explicitly include it
+					in your script, but this is not necessary as it is included by
+					default.
+					<br />
+				</p>
+			</section>
+			<section id="instructions">
+				<h2>Instructions</h2>
+				<p>
+					The mainlib library provides a set of instructions that are:
+				</p>
+				<ul>
+					<li><b>write(value)</b>: Outputs the value to the console.</li>
+					<pre><code>write("The value of 'a' / 7 is: ", get(a) / 7, ".")</code></pre>
+					<li><b>writeline(value)</b>: Outputs the value followed by a newline.</li>
+					<pre><code>writeline("Hello, World!")</code></pre>
+					<li><b>read()</b>: Reads input from the user.</li>
+					<pre><code>declare(name, str, read())</code></pre>
+					<li><b>exec(functionName, ...args)</b>: Executes a function with the given arguments, or a object by an ID.</li>
+					<pre><code>exec("function", get(a), "Argument", true)</code></pre>
+					<pre><code>exec(1, get(a), "Argument", true)</code></pre>
+					<li><b>if(statement) => instruction</b>: If the statement is true, executes the instruction.</li>
+					<pre><code>if(get(a) == 7 or not random(1, 10) % 2) => write("a is equal to 7!")</code></pre>
+					<i>Statement accepts symbols: == - equals, > - is greater than, < - is less than, >= - is greater than or equal, <= - is less than or equal, != - is not equal to; and conjunctions: and - both statements must be true for it to be true, or - at least one statement must be true for it to be true, xor - only 1 statement must be true for it to be true, not (before 1 statement) - return the opposite value</b>
+					<li><b>for(init instruction, iteration condition, iteration instruction){ instructions; }</b>: Declares a for loop</li>
+					<pre><code>for(declare(i, int, 0), get(i) < 10, set(i, get(i) + 1)){ write(get(i)); writeline(""); }</code></pre>
+					<i>Init instruction is run before the first iteration starts, iteration condition is checked before each iteration starts - if the statement is false, loop execution stops, and iteration instruction is run for each iteration after all of the instructions were executed. </b>
+					<li><b>function(arg1: type, arg2: type, ...){ instructions; }</b>: Declare a function object which can be executed</li>
+					<pre><code>function(a: int, b: int){ write(get(a) + get(b)); }</code></pre>	
+				</ul>
+		</main>
+
+		<footer>
+			<p>&copy; 2025 OLang Project. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

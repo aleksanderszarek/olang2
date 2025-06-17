@@ -29,6 +29,8 @@
 					and rapid prototyping. OLang features a clean syntax, dynamic typing,
 					and a powerful standard library.
 				</p>
+
+				
 			</section>
 
 			<section id="install">
@@ -40,7 +42,32 @@
 					Installer may install other dependencies, including Python. <br />
 					After installation, you can run OLang scripts by double-clicking the
 					file with .olang extension. OLang will automatically open the script
-					in the default command prompt application. <br />
+					in the default command prompt application. You will be able to configure your interpreter there or skip the process by applying default settings.<br />
+				</p>
+				<br>
+				<h2>Configuration</h2>
+				<p>
+					You can configure OLang by editing the <b>config.json</b> file located
+					in the OLang installation directory. This file allows you to set
+					various options such as default libraries to load, error handling, and
+					other preferences. <br />
+					For example, you can set the default library to load by adding the
+					following line to the <b>config.json</b> file:
+					<pre><code>"includeLibraries": ["mainlib", "convert", ...]</code></pre>
+					You can also set the default error handling method by adding the following
+					line to the <b>config.json</b> file:
+					<pre><code>"returnOnFatal": true</code></pre>
+					This will make OLang return an error code when a fatal error occurs,
+					instead of throwing an exception. <br />
+					You can also choose to enable or disable the debug mode by adding the
+					following line to the <b>config.json</b> file:
+					<pre><code>"preprocessorDebug": true</code></pre>
+					This will enable the debug mode, which will print debug information
+					to the console when OLang is running. <br />
+					Lastly, you can choose the directory where OLang will look for
+					libraries by adding the following line to the <b>config.json</b> file:
+					<pre><code>"generalLibraryLocation": "path/to/your/libraries"</code></pre>
+					<br><br><b>You can also set all of those options while installing OLang.</b>
 				</p>
 			</section>
 
@@ -61,10 +88,10 @@
 					using <b>exec()</b> instruction from mainlib. OLang requires libraries
 					to run. You can read about all instructions of each included library
 					using buttons below: <br />
-					<button onclick="alert('mainlib')">mainlib</button>
-					<button onclick="alert('varlib')">varlib</button>
-					<button onclick="alert('time')">time</button>
-					<button onclick="alert('math')">string</button>
+					<button onclick="location.href='/mainlib.html'">mainlib</button>
+					<button onclick="location.href='/varlib.html'">varlib</button>
+					<button onclick="location.href='/time.html'">time</button>
+					<button onclick="location.href='/string.html'">string</button>
 					<button onclick="alert('algorithm')">convert</button>
 					<button onclick="alert('os')">arrays</button>
 					<button onclick="alert('os')">os</button>

@@ -238,6 +238,16 @@ class VarLib:
                 throw_error(f"Could not find '{name}' in the scope!", True, arg)
         throw_error("Invalid function declaration format. Expected: delete(name).", True, arg)
         return
+    def exists_variable(self, arg: str, run_object, throw_error) -> bool:
+        content = arg.split("(")[1].split(")")[0].replace(" ", "").split(",")
+        if len(content) == 1:
+            name = content[0]
+            for var in self.variables:
+                if var.name == name:
+                    return True
+            return False
+        throw_error("Invalid function declaration format. Expected: exists(name).", True, arg)
+        return False
 l = VarLib()
-instructions: list[str] = ["declare", "set", "get", "delete", "typeof"]
-variables: list[object] = [l.declare_variable, l.set_variable, l.get_variable, l.delete_variable, l.typeof_variable]
+instructions: list[str] = ["declare", "set", "get", "delete", "typeof", "exists"]
+variables: list[object] = [l.declare_variable, l.set_variable, l.get_variable, l.delete_variable, l.typeof_variable, l.exists_variable]

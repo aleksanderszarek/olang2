@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>OLang Documentation</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>time</h1>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="#intro">Introduction</a></li>
+					<li><a href="#instructions">Instructions</a></li>
+					<li><a href="#examples">Examples</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="intro">
+				<h2>Introduction</h2>
+				<p>
+					String is an additional library of OLang, providing functions regarding operations on strings.
+					You can use the <b>$use string</b> command to include it
+					in your script. Without this command, the library will not be included by default.
+					<br />
+				</p>
+			</section>
+			<section id="instructions">
+				<h2>Instructions</h2>
+				<p>
+					The time library provides a set of instructions that are:
+				</p>
+				<ul>
+					<li><b>concat(str1, str2)</b>: Concatenates two strings.</li>
+					<pre><code>declare(strings, str, concat(get(str1), get(str2)))</code></pre>
+					<li><b>split(str, delimiter)</b>: Splits a string into a list of substrings based on the specified delimiter.</li>
+					<pre><code>write(split("Hello, World!", ','))</code></pre>
+					<li><b>replace(str, old, new)</b>: Replaces occurrences of a substring with another substring in the given string.</li>
+					<pre><code>set(text, replace(get(a), " ", "\n"))</code></pre>
+					<li><b>contains(str, substring)</b>: Checks if the string contains the specified substring and returns a boolean value.</li>
+					<pre><code>if(contains(get(a), "!")) => write(get(a))</code></pre>
+					<li><b>find(str, substring)</b>: Finds the substring in the specified string and returns its starting index or -1.</li>
+					<pre><code>write("Substring ", get(a), " found in the string ", get(b), " starting from the index: ", find(get(b), get(a)))</code></pre>
+					<li><b>length(str)</b>: Return the length of the string.</li>
+					<pre><code>if(length("Hello, World!") < 10) => write("Goodbye, World!")</10></code></pre>
+					<li><b>startswith(str, substring)</b>: Checks if the string starts with the specified substring and returns a boolean value.</li>
+					<pre><code>if(startswith(get(a), "Hello")) => write("Welcome!")</10></code></pre>
+					<li><b>endswith(str, substring)</b>: Checks if the string ends with the specified substring and returns a boolean value.</li>
+					<pre><code>if(endswith("Hello, World!", "!")) => write("Don't shout!")</10></code></pre>
+				</ul>
+		</main>
+
+		<footer>
+			<p>&copy; 2025 OLang Project. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

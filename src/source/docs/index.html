@@ -36,12 +36,13 @@
 			<section id="install">
 				<h2>Installation</h2>
 				<p>
-					To install OLang, download the latest binary from the official
+					To install OLang, download the latest binary (bin folder) from the official
 					repository and run the installation script called
-					<b>install.cmd</b>. <br />
-					Installer may install other dependencies, including Python. <br />
+					<b>setup.exe</b>. <br />
+					Firstly, you will need to accept the license agreement. After that,
+					you will be prompted to choose configuration, default libraries and the installation directory.
 					After installation, you can run OLang scripts by double-clicking the
-					file with .olang extension. OLang will automatically open the script
+					file with .olang extension, or by using 'olang [filename]' command with optional params: --debug for forcing preprocessor debugging and --ignore for ignoring fatal errors and running the code anyways. OLang will automatically open the script
 					in the default command prompt application. You will be able to configure your interpreter there or skip the process by applying default settings.<br />
 				</p>
 				<br>
@@ -88,13 +89,13 @@
 					using <b>exec()</b> instruction from mainlib. OLang requires libraries
 					to run. You can read about all instructions of each included library
 					using buttons below: <br />
-					<button onclick="location.href='/mainlib.html'">mainlib</button>
-					<button onclick="location.href='/varlib.html'">varlib</button>
-					<button onclick="location.href='/time.html'">time</button>
-					<button onclick="location.href='/string.html'">string</button>
-					<button onclick="location.href='/arrays.html'">arrays</button>
-					<button onclick="alert('algorithm')">convert</button>
-					<button onclick="location.href='/os.html'">os</button>
+					<button onclick="location.href='./mainlib.html'">mainlib</button>
+					<button onclick="location.href='./varlib.html'">varlib</button>
+					<button onclick="location.href='./time.html'">time</button>
+					<button onclick="location.href='./string.html'">string</button>
+					<button onclick="location.href='./arrays.html'">arrays</button>
+					<button onclick="location.href='./convert'">convert</button>
+					<button onclick="location.href='./os.html'">os</button>
 					<br /><br />
 					You can declare a library using the <b>$use</b> command. <br />
 					OLang supports functions:

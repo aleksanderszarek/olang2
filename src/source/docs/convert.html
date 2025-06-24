@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>OLang Documentation</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>convert</h1>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="#intro">Introduction</a></li>
+					<li><a href="#instructions">Instructions</a></li>
+					<li><a href="#examples">Examples</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="intro">
+				<h2>Introduction</h2>
+				<p>
+					Convert is the core library of OLang, providing essential functions
+					for converting data. By default
+					it is automatically included in every OLang script, so you can use its
+					functions without any additional setup. <br />
+					You can use the <b>$use convert</b> command to explicitly include it
+					in your script, but this is not necessary as it is included by
+					default.
+					<br />
+				</p>
+			</section>
+			<section id="instructions">
+				<h2>Instructions</h2>
+				<p>
+					The convert library provides a set of instructions that are:
+				</p>
+				<ul>
+					<li><b>int(value)</b>: Converts the value to an integer.</li>
+					<pre><code>write("23 / 7 is about ", int(23 / 7))</code></pre>
+					<li><b>float(value)</b>: Converts the value to a floating point number (float).</li>
+					<pre><code>set(a, float("3.1415"))</code></pre>
+					<li><b>str(value)</b>: Converts the value to a string.</li>
+					<pre><code>write(str(get(a)))</code></pre>
+					<li><b>bool(value)</b>: Converts the value to an boolean.</li>
+					<pre><code>if(bool(random(0, 1))) => write("true")</code></pre>
+					<li><b>type(value)</b>: Returns the type of the value as a string.</li>
+					<pre><code>write("Type of 'Hello, World' is: ", type("Hello, World"))</code></pre>
+					
+
+				</ul>
+		</main>
+
+		<footer>
+			<p>&copy; 2025 OLang Project. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

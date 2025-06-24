@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>OLang Documentation</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>varlib</h1>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="#intro">Introduction</a></li>
+					<li><a href="#instructions">Instructions</a></li>
+					<li><a href="#examples">Examples</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="intro">
+				<h2>Introduction</h2>
+				<p>
+					Varlib is the core library of OLang, providing essential functions
+					for variable operations. By default
+					it is automatically included in every OLang script, so you can use its
+					functions without any additional setup. <br />
+					You can use the <b>$use varlib</b> command to explicitly include it
+					in your script, but this is not necessary as it is included by
+					default.
+					<br />
+				</p>
+			</section>
+			<section id="instructions">
+				<h2>Instructions</h2>
+				<p>
+					The varlib library provides a set of instructions that are:
+				</p>
+				<ul>
+					<li><b>declare(name, type, value)</b>: Declares a variable.</li>
+					<pre><code>declare(number, int, int(read()))</code></pre>
+					<pre><code>declare(text, str)</code></pre>
+					<i>Type accepts: int, float, str, bool; value is optional.</i>
+					<li><b>get(name)</b>: Gets the value of a variable.</li>
+					<pre><code>write("The value of 'number' is: ", get(number))</code></pre>
+					<li><b>set(name, value)</b>: Sets the value of a variable.</li>
+					<pre><code>set(number, get(number) + 1)</code></pre>
+					<li><b>delete(name)</b>: Deletes a variable.</li>
+					<pre><code>delete(text)</code></pre>
+					<li><b>exists(name)</b>: Checks if a variable exists.</li>
+					<pre><code>if(exists(number)) => write("The variable 'number' exists.")</code></pre>
+					<li><b>typeof(name)</b>: Gets the type of a variable.</li>
+					<pre><code>write("The type of 'number' is: ", typeof(number))</code></pre>
+				</ul>
+		</main>
+
+		<footer>
+			<p>&copy; 2025 OLang Project. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

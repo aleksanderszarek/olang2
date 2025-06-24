@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>OLang Documentation</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>arrays</h1>
+			<nav>
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="#intro">Introduction</a></li>
+					<li><a href="#instructions">Instructions</a></li>
+					<li><a href="#examples">Examples</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="intro">
+				<h2>Introduction</h2>
+				<p>
+					Arrays is the core library of OLang, providing essential functions
+					for operations on arrays, like creating, appending, setting or sorting arrays. By default
+					it is automatically included in every OLang script, so you can use its
+					functions without any additional setup. <br />
+					You can use the <b>$use arrays</b> command to explicitly include it
+					in your script, but this is not necessary as it is included by
+					default.
+					<br />
+				</p>
+			</section>
+			<section id="instructions">
+				<h2>Instructions</h2>
+				<p>
+					The arrays library provides a set of instructions that are:
+				</p>
+				<ul>
+					<li><b>declare[](name, type)</b>: Creates an array with the specified name and type (int, float, str, bool).</li>
+					<pre><code>declare[](myArray, int)</code></pre>
+					<li><b>get[](name, index)</b>: Returns the value at the specified index in the array. If no index - returns the whole array.</li>
+					<pre><code>get[](myArray)</code></pre>
+					<pre><code>get[](myArray, 2)</code></pre>
+					<li><b>set[](name, index, value)</b>: Sets the value at the specified index in the array.</li>
+					<pre><code>set[](myArray, 0, read())</code></pre>
+					<li><b>append[](name, value)</b>: Appends a value to the end of the array.</li>
+					<pre><code>append[](myArray, True)</code></pre>
+					<li><b>delete[](name, index)</b>: Deletes the value at the specified index in the array. If no index - deletes the whole array.</li>
+					<pre><code>delete[](myArray)</code></pre>
+					<pre><code>delete[](myArray, 1)</code></pre>
+					<li><b>length[](name)</b>: Returns the length of the array.</li>
+					<pre><code>write("The length of myArray is: ", length[](myArray))</code></pre>
+					<li><b>sort[](name)</b>: Sorts the array in ascending order.</li>
+					<pre><code>sort[](myArray)</code></pre>
+					<li><b>clear[](name)</b>: Clears the array, removing all elements.</li>
+					<pre><code>clear[](myArray)</code></pre>
+					<li><b>contains[](name, value)</b>: Checks if the array contains the specified value and returns a boolean value.</li>
+					<pre><code>if(contains[](myArray, 5)) => write("myArray contains the value 5")</code></pre>
+					<li><b>reverse[](name)</b>: Reverses the order of the elements in the array.</li>
+					<pre><code>reverse[](myArray)</code></pre>
+					<li><b>indexof[](name, value)</b>: Returns the index of the first occurrence of the specified value in the array, or -1 if not found.</li>
+					<pre><code>write("The index of 5 in myArray is: ", indexof[](myArray, 5))</code></pre>
+					<li><b>lastindexof[](name, value)</b>: Returns the index of the last occurrence of the specified value in the array, or -1 if not found.</li>
+					<pre><code>write("The index of 3 in myArray is: ", lastindexof[](myArray, 3))</code></pre>
+
+				</ul>
+		</main>
+
+		<footer>
+			<p>&copy; 2025 OLang Project. All rights reserved.</p>
+		</footer>
+	</body>
+</html>

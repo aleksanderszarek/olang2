@@ -1,0 +1,10 @@
+// Returns a list of numbers for Fibonacci sequence;
+write("Enter the number of terms in the Fibonacci sequence: ");
+declare(n, int, read());
+declare(a, int, 1);
+declare(b, int, 0);
+for(i: int, 0 => get(n), get(i) + 1){
+    write(get(a), " ");
+    set(a, get(a) + get(b));
+    set(b, get(a) - get(b));
+}

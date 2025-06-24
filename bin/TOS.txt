@@ -1,0 +1,42 @@
+1. License and Usage
+OLang is free and open-source software.
+You are permitted to use, copy, modify, distribute, and contribute to OLang, subject to compliance with these Terms.
+You may use OLang for personal, educational, commercial, or research purposes, without restriction.
+
+2. Modifications and Contributions
+You may modify the source code of OLang and distribute your modifications, provided proper attribution is given to the original project and developers.
+When distributing modified versions, you must clearly indicate the changes made.
+Contributions to the official OLang project are welcome and may be reviewed before inclusion.
+
+3. Disclaimer of Liability
+OLang is provided "as is", without warranty of any kind.
+The use of OLang is at your own risk. While OLang itself is designed to be safe and stable, it is a tool capable of executing code that can interact deeply with your system.
+Improper use of OLang, including but not limited to:
+- running unsafe code,
+- using untrusted or malicious libraries or plugins,
+- or modifying the core engine without adequate testing,
+The creators, contributors, and maintainers of OLang are not responsible for any damage, data loss, or security issues that result from the use, misuse, or modification of the software.
+
+4. Security Responsibility
+You are responsible for reviewing and understanding the code you run using OLang.
+Only use libraries, scripts, or modules from trusted sources.
+It is recommended to test any untrusted code in a secure, isolated environment (e.g., sandbox or virtual machine).
+
+5. No Support Guarantee
+OLang is an open project maintained by a community of volunteers. While community support may be available, there is no guarantee of timely updates, fixes, or support.
+Use OLang at your discretion, especially in production environments.
+
+6. Termination
+You may stop using OLang at any time.
+The maintainers reserve the right to change, suspend, or discontinue parts of the official OLang project or related services at any time without notice.
+
+7. Governing Law
+These Terms are governed by applicable international and open-source software laws.
+Use of OLang constitutes your agreement that any legal matters will be handled under the jurisdiction chosen by the core development team or as specified in the license file.
+
+8. Acknowledgment
+By using OLang, you acknowledge that:
+- You understand the potential risks of using and modifying system-level code.
+- You accept full responsibility for any consequences of using OLang or code created with it.
+- You agree to comply with all applicable local, national, and international laws regarding software development and usage.
+

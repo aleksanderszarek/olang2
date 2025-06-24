@@ -1,0 +1,22 @@
+// Creates a list of random numbers and finds selected number;
+$use time;
+function valueError(start, end) {
+    write("Error! Expected numbers ", get(start), "-", get(end), "!");
+    end();
+}
+function numberNotFound() {
+    write("Number not found!");
+    end();
+}
+write("Enter the number of random numbers to generate: ");
+declare(n, int, read());
+if(get(n) <= 0) => exec("valueError", 0, 2147483647); //0 - int max;
+declare[](array, int);
+for(i: int, 0 =>| get(n), get(i) + 1){
+    append[](array, random(-100, 100));
+}
+write("\n\n", get[](array), "\nWhat number do you want to find?: ");
+declare(index, int, indexof[](array, read()));
+if(get(index) < -100 or get(index) > 100) => exec("valueError", -100, 100);
+if(get(index) == -1) => exec("numberNotFound");
+write("Number was found in the array with index ", get(index));

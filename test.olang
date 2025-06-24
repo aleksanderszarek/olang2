@@ -1,8 +1,0 @@
-$use time;
-declare[](rnd, int);
-for(declare(i, int, 0), get(i) < 100, set(i, get(i) + 1)){
-    append[](rnd, random(1, 100));
-}
-for(declare(i, int, 99), get(i) >= 0, set(i, get(i) - 1)){
-    writeline(get[](rnd, get(i)));
-}

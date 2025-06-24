@@ -1,14 +1,6 @@
-# OLang 2
+# OLang 2 - Beta 1.0.0
 
-## Project Work In Progress!
-
-### - Instructions to add: else, return, arrays
-
-### - Documentation to add: library documentation
-
-### - Other additions: installation files, arguments for `run.py`
-
-## Current installation method:
+## Installation method:
 
 1. Install Python with PATH
 2. Restart your computer
